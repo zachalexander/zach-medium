@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../core/auth.service'
+import { AuthService } from '../core/auth.service';
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent {
 
   loginForm: FormGroup;
-  errorMessage: string = '';
+  errorMessage = '';
 
   constructor(
     public authService: AuthService,
@@ -24,38 +24,41 @@ export class LoginComponent {
   createForm() {
     this.loginForm = this.fb.group({
       email: ['', Validators.required ],
-      password: ['',Validators.required]
+      password: ['', Validators.required]
     });
   }
 
+// tslint:disable-next-line: one-line
   tryFacebookLogin(){
     this.authService.doFacebookLogin()
     .then(res => {
-      this.router.navigate(['/user']);
-    })
+      this.router.navigate(['/home']);
+    });
   }
 
+// tslint:disable-next-line: one-line
   tryTwitterLogin(){
     this.authService.doTwitterLogin()
     .then(res => {
-      this.router.navigate(['/user']);
-    })
+      this.router.navigate(['/home']);
+    });
   }
 
+// tslint:disable-next-line: one-line
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
     .then(res => {
-      this.router.navigate(['/user']);
-    })
+      this.router.navigate(['/home']);
+    });
   }
 
   tryLogin(value){
     this.authService.doLogin(value)
     .then(res => {
-      this.router.navigate(['/user']);
+      this.router.navigate(['/home']);
     }, err => {
       console.log(err);
       this.errorMessage = err.message;
-    })
+    });
   }
 }

@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../core/user.service';
-import { AuthService } from '../core/auth.service';
+import { UserService } from '../../core/user.service';
+import { AuthService } from '../../core/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FirebaseUserModel } from '../core/user.model';
+import { FirebaseUserModel } from '../../core/user.model';
 
 @Component({
-  selector: 'page-user',
-  templateUrl: 'user.component.html',
-  styleUrls: ['user.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class UserComponent implements OnInit{
+export class HomeComponent implements OnInit {
 
   user: FirebaseUserModel = new FirebaseUserModel();
   profileForm: FormGroup;
@@ -22,9 +22,7 @@ export class UserComponent implements OnInit{
     private route: ActivatedRoute,
     private location: Location,
     private fb: FormBuilder
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(routeData => {
@@ -57,4 +55,5 @@ export class UserComponent implements OnInit{
       console.log("Logout error", error);
     });
   }
+
 }
