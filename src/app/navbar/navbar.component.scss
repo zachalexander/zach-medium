@@ -1,6 +1,16 @@
+
+a {
+  text-decoration: none !important;
+  color: #333 !important;
+}
+
+a:hover {
+  color: #aaa !important;
+}
+
 .image {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
 }
 

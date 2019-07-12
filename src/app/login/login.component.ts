@@ -28,31 +28,28 @@ export class LoginComponent {
     });
   }
 
-// tslint:disable-next-line: one-line
-  tryFacebookLogin(){
+  tryFacebookLogin() {
     this.authService.doFacebookLogin()
     .then(res => {
       this.router.navigate(['/home']);
     });
   }
 
-// tslint:disable-next-line: one-line
-  tryTwitterLogin(){
+  tryTwitterLogin() {
     this.authService.doTwitterLogin()
     .then(res => {
       this.router.navigate(['/home']);
     });
   }
 
-// tslint:disable-next-line: one-line
-  tryGoogleLogin(){
+  tryGoogleLogin() {
     this.authService.doGoogleLogin()
     .then(res => {
       this.router.navigate(['/home']);
     });
   }
 
-  tryLogin(value){
+  tryLogin(value) {
     this.authService.doLogin(value)
     .then(res => {
       this.router.navigate(['/home']);

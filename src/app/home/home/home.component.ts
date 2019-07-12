@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit {
 
   user: FirebaseUserModel = new FirebaseUserModel();
   profileForm: FormGroup;
+  nonEmailLogin = false;
+  updatedName;
 
   constructor(
     public userService: UserService,
@@ -30,8 +32,17 @@ export class HomeComponent implements OnInit {
       if (data) {
         this.user = data;
         this.createForm(this.user.name);
+        console.log(this.user);
+      }
+      if (data.name === '') {
+        this.nonEmailLogin = true;
       }
     })
+
+    this.userService.getCurrentUser()
+    .then(res => {
+      this.updatedName = res.displayName;
+    }, err => console.log(err))
   }
 
   createForm(name) {
