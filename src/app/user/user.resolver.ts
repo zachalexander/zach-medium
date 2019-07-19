@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, Router } from "@angular/router";
 import { UserService } from '../core/user.service';
 import { FirebaseUserModel } from '../core/user.model';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument
+} from '@angular/fire/firestore';
 
 @Injectable()
 export class UserResolver implements Resolve<FirebaseUserModel> {
 
-  constructor(public userService: UserService, private router: Router) { }
+  constructor(public userService: UserService, private router: Router, public db: AngularFirestore) { }
 
-  resolve(route: ActivatedRouteSnapshot) : Promise<FirebaseUserModel> {
+  resolve(route: ActivatedRouteSnapshot): Promise<FirebaseUserModel> {
 
     let user = new FirebaseUserModel();
 
     return new Promise((resolve, reject) => {
       this.userService.getCurrentUser()
       .then(res => {
-        console.log(user);
-        if(res.providerData[0].providerId === 'password') {
+        if (res.providerData[0].providerId === 'password') {
           user.image = '../../assets/android-chrome-192x192.png';
           user.name = '';
           user.provider = res.providerData[0].providerId;

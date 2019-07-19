@@ -5,6 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseUserModel } from '../../core/user.model';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument
+} from '@angular/fire/firestore';
+
+
 
 @Component({
   selector: 'app-home',
@@ -17,32 +23,36 @@ export class HomeComponent implements OnInit {
   profileForm: FormGroup;
   nonEmailLogin = false;
   updatedName;
+  userUid;
+  userData;
+  customUser: any;
+  userName;
+  userEmail;
+
 
   constructor(
     public userService: UserService,
     public authService: AuthService,
     private route: ActivatedRoute,
     private location: Location,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public db: AngularFirestore
   ) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(routeData => {
-      let data = routeData['data'];
+      const data = routeData.data;
       if (data) {
         this.user = data;
         this.createForm(this.user.name);
-        console.log(this.user);
       }
       if (data.name === '') {
         this.nonEmailLogin = true;
       }
-    })
+    });
 
-    this.userService.getCurrentUser()
-    .then(res => {
-      this.updatedName = res.displayName;
-    }, err => console.log(err))
+    this.getuserUid();
+
   }
 
   createForm(name) {
@@ -51,20 +61,32 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  save(value){
-    this.userService.updateCurrentUser(value)
+  getuserUid() {
+    this.userService.getCurrentUser()
     .then(res => {
-      console.log(res);
-    }, err => console.log(err))
+        this.userUid = res.uid;
+        this.getUserData();
+    });
+  }
+/// START HERE
+
+  getUserData() {
+    this.userService.getCustomUserData(this.userUid)
+    .then(result => {
+      this.userData = result;
+      this.userName = this.userData.username;
+      this.userEmail = this.userData.email;
+      console.log(this.userData);
+    });
   }
 
-  logout(){
+
+  logout() {
     this.authService.doLogout()
     .then((res) => {
       this.location.back();
     }, (error) => {
-      console.log("Logout error", error);
+      console.log('Logout error', error);
     });
   }
-
 }

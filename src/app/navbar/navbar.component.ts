@@ -42,12 +42,12 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  save(value){
-    this.userService.updateCurrentUser(value)
-    .then(res => {
-      console.log(res);
-    }, err => console.log(err))
-  }
+  // save(value){
+  //   this.userService.updateCurrentUser(value)
+  //   .then(res => {
+  //     console.log(res);
+  //   }, err => console.log(err))
+  // }
 
   changeName(){
     this.router.navigate(['/user']);

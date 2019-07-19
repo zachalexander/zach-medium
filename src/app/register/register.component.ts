@@ -1,7 +1,13 @@
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Component } from '@angular/core';
 import { AuthService } from '../core/auth.service'
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +23,8 @@ export class RegisterComponent {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public db: AngularFirestore
   ) {
     this.createForm();
    }
@@ -53,12 +60,32 @@ export class RegisterComponent {
      )
    }
 
-   tryRegister(value){
+   tryRegister(value) {
      this.authService.doRegister(value)
      .then(res => {
        console.log(res);
+
+       const userData = this.db.collection('users').doc(res.user.uid);
+
+       userData.set({
+           name: res.user.displayName,
+           email: res.user.email,
+           photoUrl: res.user.photoURL,
+           emailVerified: res.user.emailVerified
+        });
+
        this.errorMessage = "";
        this.successMessage = "Your account has been created";
+
+       if (res.user.displayName === null) {
+          setTimeout(() => {
+            this.router.navigate(['/user']);
+          }, 5000);
+       } else {
+          setTimeout(() => {
+            this.router.navigate(['/home']);
+          }, 5000);
+       }
      }, err => {
        console.log(err);
        this.errorMessage = err.message;

@@ -1,29 +1,29 @@
 <app-navbar></app-navbar>
 <div class="body-wrapper">
   <div class="container">
-    <h3 class="header">Please enter a display name.</h3>
+    <h3 class="header">Please pick a username:</h3>
     <div class="row">
       <div class="col-md-4 col-md-offset-4">
         <div class="card" style="width: 20rem;">
           <img class="card-img-top image" [src]="user.image" *ngIf="user.image" alt="User image">
-          <div *ngIf='user.provider != "password"'class="card-body">
-            <h4 class="card-title">{{user.name}}</h4>
-            <p class="card-text">This is an example of Social Authentication using Firebase in an Angular 7 web app. </p>
-          </div>
-          <div *ngIf='user.provider == "password"'class="card-body">
+          <div class="card-body">
             <form [formGroup]="profileForm">
               <div class="form-group">
-                <label>Your name</label>
+                <label>Username</label>
                 <input type="text" formControlName="name" class="form-control" required>
               </div>
             </form>
             <div *ngIf='!saveClicked'>
             <button (click)="save(profileForm.value)" mat-raised-button>Save</button>
+            <div *ngIf='duplicateName'>
+              <hr>
+              <small class="saveComplete">This username is already taken, please pick a different username.</small>
             </div>
+          </div>
             <div *ngIf='saveClicked'>
               <button (click)="startReading()" mat-raised-button>Start Reading</button>
               <hr>
-              <small *ngIf='saveClicked' class="saveComplete">Your display name has been saved!</small>
+              <small *ngIf='saveClicked' class="saveComplete">Your username has been saved!</small>
             </div>
           </div>
         </div>

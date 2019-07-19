@@ -2,21 +2,57 @@ import { Injectable } from "@angular/core";
 import 'rxjs/add/operator/toPromise';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument
+} from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
+import {Router} from '@angular/router';
+
+import { Observable, of } from 'rxjs';
+import { switchMap, startWith, tap, filter } from 'rxjs/operators';
+
+interface User {
+  uid: string;
+  email?: string | null;
+  photoURL?: string | null;
+  displayName?: string | null;
+}
 
 @Injectable()
 export class AuthService {
+  user: Observable<User>;
 
   constructor(
-   public afAuth: AngularFireAuth
- ){}
+   public afAuth: AngularFireAuth,
+   private afs: AngularFirestore,
+   private router: Router
+ ) {
+    this.user = this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+        } else {
+          return of(null);
+        }
+      })
+    )
+ }
 
-  doFacebookLogin(){
+  doFacebookLogin() {
     return new Promise<any>((resolve, reject) => {
-      let provider = new firebase.auth.FacebookAuthProvider();
+      const provider = new firebase.auth.FacebookAuthProvider();
+      provider.addScope('email');
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
         resolve(res);
+        if (res.additionalUserInfo.isNewUser === true) {
+          this.updateUserData(res.user);
+          this.router.navigate(['/user']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       }, err => {
         console.log(err);
         reject(err);
@@ -24,13 +60,19 @@ export class AuthService {
     })
   }
 
-  doTwitterLogin(){
+  doTwitterLogin() {
     return new Promise<any>((resolve, reject) => {
-      let provider = new firebase.auth.TwitterAuthProvider();
+      const provider = new firebase.auth.TwitterAuthProvider();
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
         resolve(res);
+        if (res.additionalUserInfo.isNewUser === true) {
+          this.updateUserData(res.user);
+          this.router.navigate(['/user']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       }, err => {
         console.log(err);
         reject(err);
@@ -38,15 +80,21 @@ export class AuthService {
     })
   }
 
-  doGoogleLogin(){
+  doGoogleLogin() {
     return new Promise<any>((resolve, reject) => {
-      let provider = new firebase.auth.GoogleAuthProvider();
+      const provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email');
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
         resolve(res);
+        if (res.additionalUserInfo.isNewUser === true) {
+          this.updateUserData(res.user);
+          this.router.navigate(['/user']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       }, err => {
         console.log(err);
         reject(err);
@@ -54,35 +102,50 @@ export class AuthService {
     })
   }
 
-  doRegister(value){
+  private oAuthLogin(provider) {
+    return this.afAuth.auth.signInWithPopup(provider)
+      .then((credential) => {
+        console.log(credential.user);
+        this.updateUserData(credential.user);
+      });
+  }
+
+  // Sets user data to firestore after succesful login
+  updateUserData(user: User) {
+    this.afs.collection('users').doc(user.uid).set({
+      username: null,
+      email: user.email
+    });
+  }
+
+  doRegister(value) {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
       .then(res => {
         resolve(res);
-      }, err => reject(err))
-    })
+      }, err => reject(err));
+    });
   }
 
-  doLogin(value){
+  doLogin(value) {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then(res => {
+        console.log(res);
         resolve(res);
-      }, err => reject(err))
-    })
+      }, err => reject(err));
+    });
   }
 
-  doLogout(){
+  doLogout() {
     return new Promise((resolve, reject) => {
-      if(firebase.auth().currentUser){
+      if (firebase.auth().currentUser) {
         this.afAuth.auth.signOut();
         resolve();
-      }
-      else{
+      } else {
         reject();
       }
     });
   }
-
 
 }

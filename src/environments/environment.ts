@@ -10,7 +10,7 @@ export const environment = {
     authDomain: 'zach-medium.firebaseapp.com',
     databaseURL: 'https://zach-medium.firebaseio.com',
     projectId: 'zach-medium',
-    storageBucket: '',
+    storageBucket: 'zach-medium.appspot.com',
     messagingSenderId: '259255812527',
     appId: '1:259255812527:web:67abe9ce18e7c508'
   }

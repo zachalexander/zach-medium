@@ -1,7 +1,11 @@
+import { UserService } from './../core/user.service';
 import { Component } from '@angular/core';
 import { AuthService } from '../core/auth.service';
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AngularFirestore
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'page-login',
@@ -15,8 +19,10 @@ export class LoginComponent {
 
   constructor(
     public authService: AuthService,
+    public userService: UserService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public db: AngularFirestore
   ) {
     this.createForm();
   }
@@ -31,21 +37,21 @@ export class LoginComponent {
   tryFacebookLogin() {
     this.authService.doFacebookLogin()
     .then(res => {
-      this.router.navigate(['/home']);
+      console.log(res);
     });
   }
 
   tryTwitterLogin() {
     this.authService.doTwitterLogin()
     .then(res => {
-      this.router.navigate(['/home']);
+      console.log(res);
     });
   }
 
   tryGoogleLogin() {
     this.authService.doGoogleLogin()
     .then(res => {
-      this.router.navigate(['/home']);
+      console.log(res);
     });
   }
 
@@ -58,4 +64,5 @@ export class LoginComponent {
       this.errorMessage = err.message;
     });
   }
+
 }
