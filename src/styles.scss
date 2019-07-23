@@ -1,9 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/materialize-social/materialize-social.css';
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
-@import '~firebaseui/dist/firebaseui.css';
+@import url('https://fonts.googleapis.com/css?family=Quattrocento:700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Alegreya|Alegreya+Sans&display=swap');
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Alegreya Sans', "Helvetica Neue", sans-serif; }
 
 

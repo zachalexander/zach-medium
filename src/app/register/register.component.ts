@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../core/auth.service'
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
+
 import {
   AngularFirestore,
   AngularFirestoreDocument

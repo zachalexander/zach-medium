@@ -4,7 +4,8 @@ import { AuthService } from '../core/auth.service';
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  AngularFirestore
+  AngularFirestore,
+  AngularFirestoreDocument
 } from '@angular/fire/firestore';
 
 @Component({
@@ -38,6 +39,11 @@ export class LoginComponent {
     this.authService.doFacebookLogin()
     .then(res => {
       console.log(res);
+      if (res.additionalUserInfo.isNewUser === true) {
+        this.router.navigate(['/user']);
+      } else {
+        this.router.navigate(['/home']);
+      }
     });
   }
 
@@ -45,6 +51,11 @@ export class LoginComponent {
     this.authService.doTwitterLogin()
     .then(res => {
       console.log(res);
+      if (res.additionalUserInfo.isNewUser === true) {
+        this.router.navigate(['/user']);
+      } else {
+        this.router.navigate(['/home']);
+      }
     });
   }
 
@@ -52,6 +63,11 @@ export class LoginComponent {
     this.authService.doGoogleLogin()
     .then(res => {
       console.log(res);
+      if (res.additionalUserInfo.isNewUser === true) {
+        this.router.navigate(['/user']);
+      } else {
+        this.router.navigate(['/home']);
+      }
     });
   }
 

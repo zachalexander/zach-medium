@@ -4,32 +4,40 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: rgba(130,157,168,0.9023984593837535);
+}
+
+form {
+  margin-bottom: 50px;
 }
 
 label {
-  color: #fff;
+  color: #35454C;
 }
 
 .header {
   text-align: center;
   margin-bottom: 35px;
-  font-family: 'Indie Flower', 'Roboto', sans-serif;
-  font-size: 54px;
-  color: #fff;
+  font-family: 'Alegreya', 'Roboto', sans-serif;
+  color: #35454C;
 }
 
-.row {
-  margin-top: 10px;
-}
 
 .error{
   color: rgb(202, 77, 77);
-  background-color: #fff;
+}
+
+.custom_content, .social_login {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-content: center;
+  margin: auto;
+  max-width: 400px;
 }
 
 .facebook, .google, .twitter {
-  min-width: 100% !important;
+  align-content: center;
+  margin: 0.5em;
 }
 
 .social-media-login {
@@ -38,7 +46,8 @@ label {
 
 .mat-raised-button {
   background: #eee;
-  color: #333;
+  color: #35454C;
+  font-weight: 700;
 }
 
 .mat-raised-button:hover {
@@ -47,16 +56,26 @@ label {
 
 .no-account {
   font-weight: 700;
-  color: #fff;
+  color: #35454C;
   margin-top: 20px;
   text-align: center;
 }
 
 .no-account a {
   text-decoration: underline !important;
-  color: #ddd;
+  color: #35454C;
 }
 
 .no-account a:hover {
-  color: #fff;
+  color: #5C8491;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
 }

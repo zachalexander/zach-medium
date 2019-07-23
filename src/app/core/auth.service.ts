@@ -49,9 +49,7 @@ export class AuthService {
         resolve(res);
         if (res.additionalUserInfo.isNewUser === true) {
           this.updateUserData(res.user);
-          this.router.navigate(['/user']);
-        } else {
-          this.router.navigate(['/home']);
+          // this.router.navigate(['/user']);
         }
       }, err => {
         console.log(err);
@@ -69,9 +67,6 @@ export class AuthService {
         resolve(res);
         if (res.additionalUserInfo.isNewUser === true) {
           this.updateUserData(res.user);
-          this.router.navigate(['/user']);
-        } else {
-          this.router.navigate(['/home']);
         }
       }, err => {
         console.log(err);
@@ -91,9 +86,6 @@ export class AuthService {
         resolve(res);
         if (res.additionalUserInfo.isNewUser === true) {
           this.updateUserData(res.user);
-          this.router.navigate(['/user']);
-        } else {
-          this.router.navigate(['/home']);
         }
       }, err => {
         console.log(err);

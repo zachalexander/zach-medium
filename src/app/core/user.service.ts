@@ -3,14 +3,10 @@ import 'rxjs/add/operator/toPromise';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import {
-  AngularFirestore,
-  AngularFirestoreDocument
+  AngularFirestore
 } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, startWith, tap, filter } from 'rxjs/operators';
-import { defineBase } from '@angular/core/src/render3';
-import { resolve } from 'q';
 
 interface User {
   uid: string;

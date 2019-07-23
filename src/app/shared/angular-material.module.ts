@@ -38,7 +38,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatTreeModule } from '@angular/material/tree';
+// import { MatTreeModule } from '@angular/material/tree';
 
 //
 // Buttons & Indicators
@@ -46,7 +46,7 @@ import { MatTreeModule } from '@angular/material/tree';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatBadgeModule } from '@angular/material/badge';
+// import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -56,7 +56,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 // Popups & Modals
 //
 
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+// import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -98,17 +98,17 @@ import { MatTableModule } from '@angular/material/table';
     MatListModule,
     MatStepperModule,
     MatTabsModule,
-    MatTreeModule,
+    // MatTreeModule,
 
     MatButtonModule,
     MatButtonToggleModule,
-    MatBadgeModule,
+    // MatBadgeModule,
     MatChipsModule,
     MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
 
-    MatBottomSheetModule,
+    // MatBottomSheetModule,
     MatDialogModule,
     MatSnackBarModule,
     MatTooltipModule,
@@ -143,17 +143,17 @@ import { MatTableModule } from '@angular/material/table';
     MatListModule,
     MatStepperModule,
     MatTabsModule,
-    MatTreeModule,
+    // MatTreeModule,
 
     MatButtonModule,
     MatButtonToggleModule,
-    MatBadgeModule,
+    // MatBadgeModule,
     MatChipsModule,
     MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
 
-    MatBottomSheetModule,
+    // MatBottomSheetModule,
     MatDialogModule,
     MatSnackBarModule,
     MatTooltipModule,

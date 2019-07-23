@@ -19,7 +19,7 @@ import { HomeComponent } from './home/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { NavbarComponent } from './navbar/navbar.component';
-import {FirebaseUIModule, firebase, firebaseui} from 'firebaseui-angular';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 
 // const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -58,13 +58,14 @@ import {FirebaseUIModule, firebase, firebaseui} from 'firebaseui-angular';
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: false }),
+    MDBBootstrapModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, BrowserAnimationsModule, // imports firebase/auth, only needed for auth features
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     // FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    CoreModule
+    CoreModule,
   ],
   providers: [AuthService, UserService, UserResolver, AuthGuard],
   bootstrap: [AppComponent]
