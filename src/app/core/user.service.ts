@@ -41,6 +41,11 @@ export class UserService {
     ref.where('username', '==', value)).snapshotChanges();
   }
 
+  searchEmails(value) {
+    return this.db.collection('users', ref =>
+    ref.where('email', '==', value)).valueChanges();
+  }
+
   getCustomUserData(value) {
     return new Promise<any> ((resolve, reject) => {
       this.db.collection('users').doc(value).valueChanges()

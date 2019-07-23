@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../core/auth.service';
+import { UserService } from '../core/user.service';
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -16,14 +17,17 @@ import {
 export class RegisterComponent {
 
   registerForm: FormGroup;
-  errorMessage: string = '';
-  successMessage: string = '';
+  errorMessage = '';
+  successMessage = '';
+  providerErrorMessage = '';
   showErrorField = false;
   showSuccessField = false;
   showSpinner = false;
+  providerError = false;
 
   constructor(
     public authService: AuthService,
+    public userService: UserService,
     private router: Router,
     private fb: FormBuilder,
     public db: AngularFirestore
@@ -34,7 +38,7 @@ export class RegisterComponent {
    createForm() {
      this.registerForm = this.fb.group({
        email: ['', Validators.required ],
-       password: ['',Validators.required]
+       password: ['', Validators.required]
      });
    }
 
@@ -42,24 +46,87 @@ export class RegisterComponent {
      this.authService.doFacebookLogin()
      .then(res => {
        this.router.navigate(['/user']);
-     }, err => console.log(err)
-     );
+     }, err => {
+       console.log(err);
+       this.errorMessage = err.message;
+       this.successMessage = '';
+
+       this.userService.searchEmails(err.email)
+       .subscribe(res => {
+         console.log(res[0]['provider']);
+         this.providerError = true;
+         this.providerErrorMessage = 'According to our records, you previously registered via ' +
+         res[0]['provider'].slice(0, -3).toUpperCase() +
+         ' Please navigate to the login page and ' +
+         'select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+       });
+
+       this.showErrorField = true;
+       if (this.showErrorField === true) {
+         setTimeout(() => {
+           this.showErrorField = false;
+           this.providerError = false;
+       }, 15000);
+       }
+      });
    }
 
    tryTwitterLogin() {
      this.authService.doTwitterLogin()
      .then(res => {
        this.router.navigate(['/user']);
-     }, err => console.log(err)
-     );
+     }, err => {
+      console.log(err);
+
+      this.userService.searchEmails(err.email)
+      .subscribe(res => {
+        console.log(res[0]['provider']);
+        this.providerError = true;
+        this.providerErrorMessage = 'According to our records, you previously registered via ' +
+        res[0]['provider'].slice(0, -3).toUpperCase() +
+        ' Please navigate to the login page and ' +
+        'select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+      });
+      this.errorMessage = err.message;
+      this.successMessage = '';
+
+      this.showErrorField = true;
+      if (this.showErrorField === true) {
+       setTimeout(() => {
+         this.showErrorField = false;
+         this.providerError = false;
+     }, 15000);
+     }
+    });
    }
 
    tryGoogleLogin() {
      this.authService.doGoogleLogin()
      .then(res => {
        this.router.navigate(['/user']);
-     }, err => console.log(err)
-     );
+     }, err => {
+       console.log(err);
+
+       this.userService.searchEmails(err.email)
+       .subscribe(res => {
+         console.log(res[0]['provider']);
+         this.providerError = true;
+         this.providerErrorMessage = 'According to our records, you previously registered via ' +
+         res[0]['provider'].slice(0, -3).toUpperCase() +
+         ' Please navigate to the login page and ' +
+         'select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+       });
+
+       this.errorMessage = err.message;
+       this.successMessage = '';
+       this.showErrorField = true;
+       if (this.showErrorField === true) {
+         setTimeout(() => {
+           this.showErrorField = false;
+           this.providerError = false;
+       }, 15000);
+       }
+      });
    }
 
    tryRegister(value) {

@@ -17,6 +17,7 @@ interface User {
   email?: string | null;
   photoURL?: string | null;
   displayName?: string | null;
+  provider?: string | null;
 }
 
 @Injectable()
@@ -106,7 +107,8 @@ export class AuthService {
   updateUserData(user: User) {
     this.afs.collection('users').doc(user.uid).set({
       username: null,
-      email: user.email
+      email: user.email,
+      provider: user['providerData'][0].providerId
     });
   }
 

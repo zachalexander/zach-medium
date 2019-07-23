@@ -19,9 +19,12 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
   successMessage = '';
+  providerErrorMessage = '';
   showErrorField = false;
   userForgotPassword = false;
   showSuccessField = false;
+  providerError = false;
+  clickedButton = false;
 
   constructor(
     public authService: AuthService,
@@ -49,6 +52,23 @@ export class LoginComponent {
       } else {
         this.router.navigate(['/home']);
       }
+    }, err => {
+      console.log(err);
+      this.userService.searchEmails(err.email)
+      .subscribe(res => {
+        console.log(res[0]['provider']);
+        this.providerError = true;
+        this.providerErrorMessage = 'According to our records, you previously registered via ' +
+        res[0]['provider'].slice(0, -3).toUpperCase() +
+        ' Please select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+      });
+      this.errorMessage = err.message;
+      this.showErrorField = true;
+      if (this.showErrorField === true) {
+        setTimeout(() => {
+          this.showErrorField = false;
+      }, 30000);
+      }
     });
   }
 
@@ -61,6 +81,25 @@ export class LoginComponent {
       } else {
         this.router.navigate(['/home']);
       }
+    }, err => {
+      console.log(err);
+
+      this.userService.searchEmails(err.email)
+      .subscribe(res => {
+        console.log(res[0]['provider']);
+        this.providerError = true;
+        this.providerErrorMessage = 'According to our records, you previously registered via ' +
+        res[0]['provider'].slice(0, -3).toUpperCase() +
+        ' Please select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+      });
+      this.errorMessage = err.message;
+
+      this.showErrorField = true;
+      if (this.showErrorField === true) {
+        setTimeout(() => {
+          this.showErrorField = false;
+      }, 30000);
+      }
     });
   }
 
@@ -72,6 +111,25 @@ export class LoginComponent {
         this.router.navigate(['/user']);
       } else {
         this.router.navigate(['/home']);
+      }
+    }, err => {
+      console.log(err);
+
+      this.userService.searchEmails(err.email)
+      .subscribe(res => {
+        console.log(res[0]['provider']);
+        this.providerError = true;
+        this.providerErrorMessage = 'According to our records, you previously registered via ' +
+        res[0]['provider'].slice(0, -3).toUpperCase() +
+        ' Please select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+      });
+
+      this.errorMessage = err.message;
+      this.showErrorField = true;
+      if (this.showErrorField === true) {
+        setTimeout(() => {
+          this.showErrorField = false;
+      }, 30000);
       }
     });
   }
@@ -100,6 +158,7 @@ export class LoginComponent {
     this.userService.sendPasswordUpdateEmail(value.email)
     .then(res => {
       if (res === 'success!') {
+        this.clickedButton = true;
         this.showSuccessField = true;
         this.successMessage = 'Instructions to update your password have been sent to your e-mail. Please check your inbox!';
         setTimeout(() => {

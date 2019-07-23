@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   customUser: any;
   userName;
   userEmail;
+  userProvider;
 
 
   constructor(
@@ -76,6 +77,7 @@ export class HomeComponent implements OnInit {
       this.userData = result;
       this.userName = this.userData.username;
       this.userEmail = this.userData.email;
+      this.userProvider = this.userData.provider;
       console.log(this.userData);
     });
   }

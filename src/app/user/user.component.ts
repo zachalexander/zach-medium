@@ -62,15 +62,18 @@ export class UserComponent implements OnInit{
           this.userService.getCurrentUser()
           .then(res => {
             const customUser = this.db.collection('users').doc(res.uid);
+            console.log(res);
             if (res.email === null) {
               customUser.set({
                 email: value.email,
                 username: value.name,
+                provider: res.provider[0].providerId
               });
             } else {
               customUser.set({
                 email: res.email,
                 username: value.name,
+                provider: res.providerData[0].providerId
               });
             }
           });

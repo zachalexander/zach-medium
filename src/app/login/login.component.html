@@ -1,5 +1,5 @@
 <div *ngIf='showErrorField' class="alert alert-danger" id='sticky' role="alert">
-    {{errorMessage}}
+    {{errorMessage}} {{providerErrorMessage}}
 </div>
 <div *ngIf='showSuccessField' class="alert alert-success" id='sticky' role="alert">
     {{successMessage}}
@@ -33,8 +33,8 @@
               </div>
               <hr>
               <div class="create_login">
-                <p class="no-account">No account yet? <a href="/register">Create an account</a></p>
-                <p class="no-account">Forgot your password? <a (click)="forgotPassword()"> Update Password</a></p>
+                <small class="no-account">No account yet? <a href="/register">Create an account</a></small><br>
+                <small class="no-account">Forgot your password? <a (click)="forgotPassword()"> Update Password</a></small>
               </div>
           </div>
         </div>
@@ -45,7 +45,8 @@
               <label>Email address</label>
               <input type="email" formControlName="email" class="form-control">
             </div>
-            <button type="button" mdbBtn color="elegant" outline=true mdbWavesEffect (click)="sendPasswordResetEmail(loginForm.value)">Send me an e-mail</button>
+            <button *ngIf='!clickedButton' type="button" mdbBtn color="elegant" outline=true mdbWavesEffect (click)="sendPasswordResetEmail(loginForm.value)">Send me an e-mail</button>
+            <button *ngIf='clickedButton' type="button" mdbBtn color="elegant" outline=true mdbWavesEffect (click)="sendPasswordResetEmail(loginForm.value)" disabled>Send me an e-mail</button>
           </form>
         </div>
       </div>
