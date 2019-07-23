@@ -17,6 +17,7 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   errorMessage = '';
+  showErrorField = false;
 
   constructor(
     public authService: AuthService,
@@ -78,6 +79,12 @@ export class LoginComponent {
     }, err => {
       console.log(err);
       this.errorMessage = err.message;
+      this.showErrorField = true;
+      if (this.showErrorField === true) {
+        setTimeout(() => {
+          this.showErrorField = false;
+      }, 5000);
+      }
     });
   }
 
