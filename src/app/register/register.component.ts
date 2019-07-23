@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../core/auth.service'
+import { AuthService } from '../core/auth.service';
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -18,6 +18,9 @@ export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
+  showErrorField = false;
+  showSuccessField = false;
+  showSpinner = false;
 
   constructor(
     public authService: AuthService,
@@ -35,28 +38,28 @@ export class RegisterComponent {
      });
    }
 
-   tryFacebookLogin(){
+   tryFacebookLogin() {
      this.authService.doFacebookLogin()
-     .then(res =>{
+     .then(res => {
        this.router.navigate(['/user']);
      }, err => console.log(err)
-     )
+     );
    }
 
-   tryTwitterLogin(){
+   tryTwitterLogin() {
      this.authService.doTwitterLogin()
-     .then(res =>{
+     .then(res => {
        this.router.navigate(['/user']);
      }, err => console.log(err)
-     )
+     );
    }
 
-   tryGoogleLogin(){
+   tryGoogleLogin() {
      this.authService.doGoogleLogin()
-     .then(res =>{
+     .then(res => {
        this.router.navigate(['/user']);
      }, err => console.log(err)
-     )
+     );
    }
 
    tryRegister(value) {
@@ -73,23 +76,36 @@ export class RegisterComponent {
            emailVerified: res.user.emailVerified
         });
 
-       this.errorMessage = "";
-       this.successMessage = "Your account has been created";
+       this.errorMessage = '';
+       this.successMessage = 'Your account has been created!';
+       this.showSpinner = true;
 
-       if (res.user.displayName === null) {
-          setTimeout(() => {
-            this.router.navigate(['/user']);
+       this.showSuccessField = true;
+       if (this.showSuccessField === true) {
+         setTimeout(() => {
+           this.showSuccessField = false;
+
           }, 5000);
-       } else {
+        }
+       if (res.user.displayName === null) {
+        setTimeout(() => {
+          this.router.navigate(['/user']);
+        }, 5000);
+      } else {
           setTimeout(() => {
             this.router.navigate(['/home']);
           }, 5000);
-       }
-     }, err => {
+      }}, err => {
        console.log(err);
        this.errorMessage = err.message;
-       this.successMessage = "";
-     })
-   }
+       this.successMessage = '';
 
-}
+       this.showErrorField = true;
+       if (this.showErrorField === true) {
+         setTimeout(() => {
+           this.showErrorField = false;
+       }, 5000);
+       }
+      });
+    }
+  }
