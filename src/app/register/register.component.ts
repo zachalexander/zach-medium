@@ -151,7 +151,6 @@ export class RegisterComponent {
        if (this.showSuccessField === true) {
          setTimeout(() => {
            this.showSuccessField = false;
-
           }, 5000);
         }
        if (res.user.displayName === null) {

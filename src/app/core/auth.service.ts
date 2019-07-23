@@ -6,7 +6,6 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { ActivatedRoute } from '@angular/router';
 import {Router} from '@angular/router';
 
 import { Observable, of } from 'rxjs';
@@ -18,12 +17,12 @@ interface User {
   photoURL?: string | null;
   displayName?: string | null;
   provider?: string | null;
+  last_login?: string | null;
 }
 
 @Injectable()
 export class AuthService {
   user: Observable<User>;
-
   constructor(
    public afAuth: AngularFireAuth,
    private afs: AngularFirestore,
@@ -50,8 +49,8 @@ export class AuthService {
         resolve(res);
         if (res.additionalUserInfo.isNewUser === true) {
           this.updateUserData(res.user);
-          // this.router.navigate(['/user']);
         }
+        this.addTimeStamp(res.user);
       }, err => {
         console.log(err);
         reject(err);
@@ -69,6 +68,7 @@ export class AuthService {
         if (res.additionalUserInfo.isNewUser === true) {
           this.updateUserData(res.user);
         }
+        this.addTimeStamp(res.user);
       }, err => {
         console.log(err);
         reject(err);
@@ -88,6 +88,7 @@ export class AuthService {
         if (res.additionalUserInfo.isNewUser === true) {
           this.updateUserData(res.user);
         }
+        this.addTimeStamp(res.user);
       }, err => {
         console.log(err);
         reject(err);
@@ -105,10 +106,19 @@ export class AuthService {
 
   // Sets user data to firestore after succesful login
   updateUserData(user: User) {
+    const date = new Date();
     this.afs.collection('users').doc(user.uid).set({
       username: null,
       email: user.email,
-      provider: user['providerData'][0].providerId
+      provider: user['providerData'][0].providerId,
+      last_login: date
+    });
+  }
+
+  addTimeStamp(user: User) {
+    const date = new Date();
+    this.afs.collection('users').doc(user.uid).update({
+      last_login: date
     });
   }
 

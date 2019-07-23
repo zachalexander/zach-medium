@@ -56,7 +56,6 @@ export class LoginComponent {
       console.log(err);
       this.userService.searchEmails(err.email)
       .subscribe(res => {
-        console.log(res[0]['provider']);
         this.providerError = true;
         this.providerErrorMessage = 'According to our records, you previously registered via ' +
         res[0]['provider'].slice(0, -3).toUpperCase() +
@@ -117,7 +116,6 @@ export class LoginComponent {
 
       this.userService.searchEmails(err.email)
       .subscribe(res => {
-        console.log(res[0]['provider']);
         this.providerError = true;
         this.providerErrorMessage = 'According to our records, you previously registered via ' +
         res[0]['provider'].slice(0, -3).toUpperCase() +

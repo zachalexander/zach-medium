@@ -7,7 +7,6 @@
     </div>
     <div class="nav-right">
       <button mat-button><a (click)="logout()" class="navbar-text navbar-left navbar-link">Logout</a></button>
-      <!-- <button mat-button><a (click)="changeName()" class="navbar-text navbar-left navbar-link">Change Name</a></button> -->
       <button mat-button [matMenuTriggerFor]="menu">
         <img class="card-img-top image" [src]="user.image" *ngIf="user.image" alt="User image">
         <img class="card-img-top image" src="https://via.placeholder.com/400x300" *ngIf="!user.image" alt="User image">
@@ -15,7 +14,6 @@
       <mat-menu #menu="matMenu">
         <button (click)="changeName()" mat-menu-item>Change Display Name</button>
       </mat-menu>
-
     </div>
   </div>
 </div>
