@@ -1,4 +1,4 @@
-<div *ngIf='showErrorField' class="alert alert-danger" role="alert">
+<div *ngIf='showErrorField' class="alert alert-danger" id='sticky' role="alert">
     {{errorMessage}}
 </div>
 <div class="body-wrapper">
@@ -20,13 +20,15 @@
       </div>
       <div class="social_login">
           <div class="facebook">
-            <button type="button" class="btn btn-primary btn-block" (click)="tryFacebookLogin()">Login with Facebook</button>
+            <button type="button" (click)="tryFacebookLogin()" mdbBtn color="fb" class="waves-light" mdbWavesEffect><i class="fa fa-facebook"></i>&nbsp;&nbsp;Sign In with Facebook</button>
           </div>
           <div class="google">
-            <button type="button" class="btn btn-danger btn-block" (click)="tryGoogleLogin()">Login with Google</button>
+            <button type="button" (click)="tryGoogleLogin()" mdbBtn color="gplus" class="waves-light" mdbWavesEffect><i class="fa fa-google"></i>&nbsp;&nbsp;Sign In with Google</button>
           </div>
+          <!--Google +-->
           <div class="twitter">
-            <button type="button" class="btn btn-info btn-block" (click)="tryTwitterLogin()">Login with Twitter</button>
+            <!-- <button type="button" class="btn btn-info btn-block" (click)="tryTwitterLogin()">Login with Twitter</button> -->
+            <button type="button" (click)="tryTwitterLogin()" mdbBtn color="tw" class="waves-light" mdbWavesEffect><i class="fa fa-twitter"></i>&nbsp;&nbsp;Twitter</button>
           </div>
           <div class="create_login">
             <p class="no-account">No account yet? <a href="/register">Create an account</a></p>

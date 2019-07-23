@@ -21,9 +21,10 @@ label {
   color: #35454C;
 }
 
-
-.error{
-  color: rgb(202, 77, 77);
+#sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .custom_content, .social_login {
@@ -38,6 +39,11 @@ label {
 .facebook, .google, .twitter {
   align-content: center;
   margin: 0.5em;
+
+  button {
+    min-width: 98%;
+    align-self: center;
+  }
 }
 
 .social-media-login {
