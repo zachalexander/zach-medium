@@ -7,6 +7,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'page-login',
@@ -17,7 +18,10 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   errorMessage = '';
+  successMessage = '';
   showErrorField = false;
+  userForgotPassword = false;
+  showSuccessField = false;
 
   constructor(
     public authService: AuthService,
@@ -86,6 +90,33 @@ export class LoginComponent {
       }, 5000);
       }
     });
+  }
+
+  forgotPassword() {
+    this.userForgotPassword = true;
+  }
+
+  sendPasswordResetEmail(value) {
+    this.userService.sendPasswordUpdateEmail(value.email)
+    .then(res => {
+      if (res === 'success!') {
+        this.showSuccessField = true;
+        this.successMessage = 'Instructions to update your password have been sent to your e-mail. Please check your inbox!';
+        setTimeout(() => {
+          location.reload();
+        }, 5000);
+      } else {
+        this.showErrorField = true;
+        this.errorMessage = res.message;
+        if (this.showErrorField === true) {
+          setTimeout(() => {
+            this.showErrorField = false;
+        }, 5000);
+      }
+      }
+    });
+
+
   }
 
 }

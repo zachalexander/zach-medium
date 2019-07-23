@@ -1,36 +1,52 @@
 <div *ngIf='showErrorField' class="alert alert-danger" id='sticky' role="alert">
     {{errorMessage}}
 </div>
+<div *ngIf='showSuccessField' class="alert alert-success" id='sticky' role="alert">
+    {{successMessage}}
+</div>
 <div class="body-wrapper">
-  <div class="login">
-    <h1 class="header">Welcome back, please sign in.</h1>
-    <div class="container">
-      <div class="custom_content">
-        <form [formGroup]="loginForm">
-          <div class="form-group">
-            <label>Email address</label>
-            <input type="email" formControlName="email" class="form-control">
+      <div class="login">
+        <div *ngIf="!userForgotPassword" class="container">
+          <h1 class="header">Welcome back, please sign in.</h1>
+          <div class="custom_content">
+            <form [formGroup]="loginForm">
+              <div class="form-group">
+                <label>Email address</label>
+                <input type="email" formControlName="email" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" formControlName="password">
+              </div>
+              <button type="button" mdbBtn color="elegant" outline=true mdbWavesEffect (click)="tryLogin(loginForm.value)">Log In</button>
+            </form>
           </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" formControlName="password">
+          <div class="social_login">
+              <div class="facebook">
+                <button type="button" (click)="tryFacebookLogin()" mdbBtn color="fb" class="waves-light" mdbWavesEffect><i class="fa fa-facebook"></i>&nbsp;&nbsp;Sign In with Facebook</button>
+              </div>
+              <div class="google">
+                <button type="button" (click)="tryGoogleLogin()" mdbBtn color="gplus" class="waves-light" mdbWavesEffect><i class="fa fa-google"></i>&nbsp;&nbsp;Sign In with Google</button>
+              </div>
+              <div class="twitter">
+                <button type="button" (click)="tryTwitterLogin()" mdbBtn color="tw" class="waves-light" mdbWavesEffect><i class="fa fa-twitter"></i>&nbsp;&nbsp;Sign In with Twitter</button>
+              </div>
+              <hr>
+              <div class="create_login">
+                <p class="no-account">No account yet? <a href="/register">Create an account</a></p>
+                <p class="no-account">Forgot your password? <a (click)="forgotPassword()"> Update Password</a></p>
+              </div>
           </div>
-          <button type="button" mdbBtn color="elegant" outline=true mdbWavesEffect (click)="tryLogin(loginForm.value)">Log In</button>
-        </form>
+        </div>
+        <div *ngIf="userForgotPassword" class="custom_content">
+          <h1 class="header">Please enter your e-mail address:</h1>
+          <form [formGroup]="loginForm">
+            <div class="form-group">
+              <label>Email address</label>
+              <input type="email" formControlName="email" class="form-control">
+            </div>
+            <button type="button" mdbBtn color="elegant" outline=true mdbWavesEffect (click)="sendPasswordResetEmail(loginForm.value)">Send me an e-mail</button>
+          </form>
+        </div>
       </div>
-      <div class="social_login">
-          <div class="facebook">
-            <button type="button" (click)="tryFacebookLogin()" mdbBtn color="fb" class="waves-light" mdbWavesEffect><i class="fa fa-facebook"></i>&nbsp;&nbsp;Sign In with Facebook</button>
-          </div>
-          <div class="google">
-            <button type="button" (click)="tryGoogleLogin()" mdbBtn color="gplus" class="waves-light" mdbWavesEffect><i class="fa fa-google"></i>&nbsp;&nbsp;Sign In with Google</button>
-          </div>
-          <div class="twitter">
-            <button type="button" (click)="tryTwitterLogin()" mdbBtn color="tw" class="waves-light" mdbWavesEffect><i class="fa fa-twitter"></i>&nbsp;&nbsp;Sign In with Twitter</button>
-          </div>
-          <div class="create_login">
-            <p class="no-account">No account yet? <a href="/register">Create an account</a></p>
-          </div>
-      </div>
-    </div>
   </div>

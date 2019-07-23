@@ -49,4 +49,14 @@ export class UserService {
       });
     });
   }
+
+  sendPasswordUpdateEmail(emailAddress) {
+    return new Promise<any> ((resolve, reject) => {
+    firebase.auth().sendPasswordResetEmail(emailAddress).then(function() {
+      resolve('success!');
+    }).catch(function(error) {
+      resolve(error);
+    });
+   });
+  }
 }
