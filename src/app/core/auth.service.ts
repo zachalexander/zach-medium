@@ -135,8 +135,11 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then(res => {
-        console.log(res);
         resolve(res);
+        if (res.additionalUserInfo.isNewUser === true) {
+          this.updateUserData(res.user);
+        }
+        this.addTimeStamp(res.user);
       }, err => reject(err));
     });
   }

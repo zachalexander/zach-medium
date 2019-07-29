@@ -1,5 +1,8 @@
 <div *ngIf='showErrorField' class="alert alert-danger" id='sticky' role="alert">
-    {{errorMessage}} {{providerErrorMessage}}
+    {{errorMessage}}
+</div>
+<div *ngIf='providerError' class="alert alert-danger" id='sticky' role="alert">
+  {{providerErrorMessage}}
 </div>
 <div *ngIf='showSuccessField' class="alert alert-success" id='sticky' role="alert">
     {{successMessage}}

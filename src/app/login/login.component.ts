@@ -46,7 +46,6 @@ export class LoginComponent {
   tryFacebookLogin() {
     this.authService.doFacebookLogin()
     .then(res => {
-      console.log(res);
       if (res.additionalUserInfo.isNewUser === true) {
         this.router.navigate(['/user']);
       } else {
@@ -57,9 +56,8 @@ export class LoginComponent {
       this.userService.searchEmails(err.email)
       .subscribe(res => {
         this.providerError = true;
-        this.providerErrorMessage = 'According to our records, you previously registered via ' +
-        res[0]['provider'].slice(0, -3).toUpperCase() +
-        ' Please select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+        this.providerErrorMessage = res[0]['provider'] + ' is not correctly referencing your credentials.' +
+        ' Please use ' + '"' + err.email + '"' + ' as your e-mail address to log in.';
       });
       this.errorMessage = err.message;
       this.showErrorField = true;
@@ -87,9 +85,8 @@ export class LoginComponent {
       .subscribe(res => {
         console.log(res[0]['provider']);
         this.providerError = true;
-        this.providerErrorMessage = 'According to our records, you previously registered via ' +
-        res[0]['provider'].slice(0, -3).toUpperCase() +
-        ' Please select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+        this.providerErrorMessage = res[0]['provider'] + ' is not correctly referencing your credentials.' +
+        ' Please use ' + '"' + err.email + '"' + ' as your e-mail address to log in.';
       });
       this.errorMessage = err.message;
 
@@ -117,9 +114,8 @@ export class LoginComponent {
       this.userService.searchEmails(err.email)
       .subscribe(res => {
         this.providerError = true;
-        this.providerErrorMessage = 'According to our records, you previously registered via ' +
-        res[0]['provider'].slice(0, -3).toUpperCase() +
-        ' Please select "Sign In with ' + res[0]['provider'].slice(0, -3).toUpperCase() + '", to log back in.';
+        this.providerErrorMessage = res[0]['provider'] + ' is not correctly referencing your credentials.' +
+        ' Please use ' + '"' + err.email + '"' + ' as your e-mail address to log in.';
       });
 
       this.errorMessage = err.message;
@@ -135,7 +131,12 @@ export class LoginComponent {
   tryLogin(value) {
     this.authService.doLogin(value)
     .then(res => {
-      this.router.navigate(['/home']);
+      console.log(res);
+      if (res.additionalUserInfo.isNewUser === true) {
+        this.router.navigate(['/user']);
+      } else {
+        this.router.navigate(['/home']);
+      }
     }, err => {
       console.log(err);
       this.errorMessage = err.message;
