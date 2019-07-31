@@ -25,32 +25,42 @@
             </form>
           </div>
           <div class="social_login">
-              <div class="facebook">
+              <!-- <div class="facebook">
                 <button type="button" (click)="tryFacebookLogin()" mdbBtn color="fb" class="waves-light" mdbWavesEffect><i class="fa fa-facebook"></i>&nbsp;&nbsp;Sign In with Facebook</button>
-              </div>
+              </div> -->
               <div class="google">
-                <button type="button" (click)="tryGoogleLogin()" mdbBtn color="gplus" class="waves-light" mdbWavesEffect><i class="fa fa-google"></i>&nbsp;&nbsp;Sign In with Google</button>
+                <button type="button" (click)="tryGoogleLogin()" mdbBtn color="gplus" class="waves-light" mdbWavesEffect><i class="fab fa-google"></i>&nbsp;&nbsp;Sign In with Google</button>
               </div>
               <div class="twitter">
-                <button type="button" (click)="tryTwitterLogin()" mdbBtn color="tw" class="waves-light" mdbWavesEffect><i class="fa fa-twitter"></i>&nbsp;&nbsp;Sign In with Twitter</button>
+                <button type="button" (click)="tryTwitterLogin()" mdbBtn color="tw" class="waves-light" mdbWavesEffect><i class="fab fa-twitter"></i>&nbsp;&nbsp;Sign In with Twitter</button>
               </div>
               <hr>
               <div class="create_login">
                 <small class="no-account">No account yet? <a href="/register">Create an account</a></small><br>
-                <small class="no-account">Forgot your password? <a (click)="forgotPassword()"> Update Password</a></small>
+                <small class="no-account">Forgot your password? <a data-target="#basicExample" (click)="basicModal.show()">Update Password</a></small>
               </div>
           </div>
         </div>
-        <div *ngIf="userForgotPassword" class="custom_content">
-          <h1 class="header">Please enter your e-mail address:</h1>
-          <form [formGroup]="loginForm">
-            <div class="form-group">
-              <label>Email address</label>
-              <input type="email" formControlName="email" class="form-control">
+        <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title w-100" id="myModalLabel"><strong>We'll e-mail you a link to update your password</strong></h5>
+                </div>
+                <div class="modal-body">
+                  <form [formGroup]="loginForm">
+                      <div class="form-group">
+                        <label>Email address</label>
+                        <input type="email" formControlName="email" class="form-control">
+                      </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button *ngIf='!clickedButton' type="button" mdbBtn color="success" outline=true mdbWavesEffect (click)="sendPasswordResetEmail(loginForm.value)"><mdb-icon fas icon="paper-plane" class="ml-1"></mdb-icon>  Send me an e-mail</button>
+                  <button *ngIf='clickedButton' type="button" mdbBtn color="success" outline=true mdbWavesEffect (click)="sendPasswordResetEmail(loginForm.value)" disabled><mdb-icon fas icon="paper-plane" class="ml-1"></mdb-icon>  Send me an e-mail</button>
+                  <button type="button" mdbBtn color="elegant" outline=true (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+                </div>
+              </div>
             </div>
-            <button *ngIf='!clickedButton' type="button" mdbBtn color="elegant" outline=true mdbWavesEffect (click)="sendPasswordResetEmail(loginForm.value)">Send me an e-mail</button>
-            <button *ngIf='clickedButton' type="button" mdbBtn color="elegant" outline=true mdbWavesEffect (click)="sendPasswordResetEmail(loginForm.value)" disabled>Send me an e-mail</button>
-          </form>
         </div>
-      </div>
   </div>

@@ -8,6 +8,7 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
+import { ModalModule, ButtonsModule, WavesModule } from 'angular-bootstrap-md';
 
 @Component({
   selector: 'page-login',
@@ -31,7 +32,10 @@ export class LoginComponent {
     public userService: UserService,
     private router: Router,
     private fb: FormBuilder,
-    public db: AngularFirestore
+    public db: AngularFirestore,
+    public modalModule: ModalModule,
+    public buttonsModule: ButtonsModule,
+    public wavesModule: WavesModule
   ) {
     this.createForm();
   }
@@ -43,6 +47,10 @@ export class LoginComponent {
     });
   }
 
+  onOpen(event: any) {
+    console.log(event);
+  }
+
   tryFacebookLogin() {
     this.authService.doFacebookLogin()
     .then(res => {
@@ -52,20 +60,7 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       }
     }, err => {
-      console.log(err);
-      this.userService.searchEmails(err.email)
-      .subscribe(res => {
-        this.providerError = true;
-        this.providerErrorMessage = res[0]['provider'] + ' is not correctly referencing your credentials.' +
-        ' Please use ' + '"' + err.email + '"' + ' as your e-mail address to log in.';
-      });
-      this.errorMessage = err.message;
-      this.showErrorField = true;
-      if (this.showErrorField === true) {
-        setTimeout(() => {
-          this.showErrorField = false;
-      }, 30000);
-      }
+      this.showProviderError(err);
     });
   }
 
@@ -79,23 +74,7 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       }
     }, err => {
-      console.log(err);
-
-      this.userService.searchEmails(err.email)
-      .subscribe(res => {
-        console.log(res[0]['provider']);
-        this.providerError = true;
-        this.providerErrorMessage = res[0]['provider'] + ' is not correctly referencing your credentials.' +
-        ' Please use ' + '"' + err.email + '"' + ' as your e-mail address to log in.';
-      });
-      this.errorMessage = err.message;
-
-      this.showErrorField = true;
-      if (this.showErrorField === true) {
-        setTimeout(() => {
-          this.showErrorField = false;
-      }, 30000);
-      }
+      this.showProviderError(err);
     });
   }
 
@@ -109,22 +88,7 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       }
     }, err => {
-      console.log(err);
-
-      this.userService.searchEmails(err.email)
-      .subscribe(res => {
-        this.providerError = true;
-        this.providerErrorMessage = res[0]['provider'] + ' is not correctly referencing your credentials.' +
-        ' Please use ' + '"' + err.email + '"' + ' as your e-mail address to log in.';
-      });
-
-      this.errorMessage = err.message;
-      this.showErrorField = true;
-      if (this.showErrorField === true) {
-        setTimeout(() => {
-          this.showErrorField = false;
-      }, 30000);
-      }
+      this.showProviderError(err);
     });
   }
 
@@ -151,6 +115,28 @@ export class LoginComponent {
 
   forgotPassword() {
     this.userForgotPassword = true;
+  }
+
+  backtoLogin() {
+    this.userForgotPassword = false;
+  }
+
+  showProviderError(error) {
+    this.userService.searchEmails(error.email)
+    .subscribe(res => {
+      console.log(res);
+      this.providerError = true;
+      this.providerErrorMessage = 'It looks like you are trying to log in with a provider using the account' +
+      ' associated with this e-mail address: ' +
+      error.email + '. If this is correct, please sign in using the e-mail address and password form instead of the' +
+      ' provider that you clicked. Otherwise, please sign in using a different e-mail address and/or provider.';
+
+      if (this.providerError === true) {
+        setTimeout(() => {
+          this.providerError = false;
+        }, 10000);
+      }
+    });
   }
 
   sendPasswordResetEmail(value) {

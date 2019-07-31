@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { ModalModule, ButtonsModule, WavesModule } from 'angular-bootstrap-md';
 
 
 // const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -64,6 +65,9 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     AngularFireAuthModule, BrowserAnimationsModule, // imports firebase/auth, only needed for auth features
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    ModalModule,
+    ButtonsModule,
+    WavesModule,
     // FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     CoreModule,
   ],
